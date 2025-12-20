@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Arcane Tides — Battle</title>
+    <link rel="stylesheet" href="game.css" />
+  </head>
+  <body class="game-view">
+    <div class="stars-overlay"></div>
+
+    <header class="game-header">
+      <button id="backMain" class="btn-icon">← Leave</button>
+      <div class="turn-indicator">
+        <span class="label">Turn:</span>
+        <span id="turnOwner" class="value">-</span>
+      </div>
+      <div class="mana-container">
+        <div class="mana-label">Mana</div>
+        <div class="mana-bar">
+          <span id="playerMana">0</span> / <span id="playerCrystals">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="arena">
+      <section id="setupArea" class="overlay-panel active">
+        <div class="panel-content">
+          <h2>Prepare for Battle</h2>
+          <div class="setup-controls">
+            <select id="heroSelect" class="custom-select">
+              <option value="default">Default Hero</option>
+            </select>
+            <div class="deck-options">
+              <button id="useSavedDeck" class="btn-game">Use Saved Deck</button>
+              <button id="autoFillDeck" class="btn-game">Auto-Fill</button>
+            </div>
+            <button id="startGame" class="btn-primary-lg">START MATCH</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mulliganArea" class="overlay-panel">
+        <div class="panel-content">
+          <h3>Redraw Cards</h3>
+          <p>Select cards to send back to the deck</p>
+          <div id="mulliganHand" class="hand-display"></div>
+          <button id="confirmMulligan" class="btn-primary-lg">
+            Confirm Hand
+          </button>
+        </div>
+      </section>
+
+      <div id="boardArea" class="battlefield" style="display: none">
+        <div class="zone enemy-zone">
+          <div class="hero-portrait enemy">
+            <div class="hp-bubble" id="enemyHealth">30</div>
+            <div class="portrait-frame"></div>
+            <span class="hero-name">Enemy Rival</span>
+          </div>
+          <div id="enemyBoard" class="board-slots"></div>
+        </div>
+
+        <div class="board-divider"></div>
+
+        <div class="zone player-zone">
+          <div id="playerBoard" class="board-slots"></div>
+          <div class="hero-portrait player">
+            <div class="hp-bubble" id="playerHealth">30</div>
+            <div class="portrait-frame"></div>
+            <span class="hero-name">You</span>
+          </div>
+        </div>
+
+        <div class="player-hud">
+          <div id="playerHand" class="player-hand-container"></div>
+          <button id="endTurnBtn" class="btn-end-turn">END<br />TURN</button>
+        </div>
+      </div>
+    </main>
+
+    <div id="gameLog" class="mini-log"></div>
+
+    <div id="gameResult" class="modal-overlay" aria-hidden="true">
+      <div class="modal-card">
+        <h1 id="resultTitle">Victory</h1>
+        <p id="resultText"></p>
+        <div class="modal-actions">
+          <button id="resultToMenu" class="btn-game">Menu</button>
+          <button id="resultRestart" class="btn-primary">Play Again</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="cards.js"></script>
+    <script src="game.js"></script>
+  </body>
+</html>
