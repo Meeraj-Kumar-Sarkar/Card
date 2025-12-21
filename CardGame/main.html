@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Card Battle</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="table">
+      <div class="card player">
+        <h2 id="p1-name"></h2>
+        <div class="stat">Life: <span id="p1-life"></span></div>
+        <div class="stat">Mana: <span id="p1-mana"></span></div>
+
+        <div class="actions">
+          <button data-action="light">Light</button>
+          <button data-action="normal">Normal</button>
+          <button data-action="special">Special</button>
+          <button data-action="def_normal" class="def-btn">Def (N)</button>
+          <button data-action="def_hard" class="def-btn">Def (H)</button>
+        </div>
+      </div>
+
+      <div class="vs">VS</div>
+
+      <div class="card enemy">
+        <h2 id="p2-name"></h2>
+        <div class="stat">Life: <span id="p2-life"></span></div>
+        <div class="stat">Mana: <span id="p2-mana"></span></div>
+
+        <div class="actions">
+          <button data-action="light">Light</button>
+          <button data-action="normal">Normal</button>
+          <button data-action="special">Special</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+    <!-- <button id="nextTurn">Next Round</button> -->
+    <button id="rematch" disabled>Rematch</button>
+
+    <div id="log" class="log"></div>
+
+    <script type="module" src="maincall.js"></script>
+  </body>
+</html>
