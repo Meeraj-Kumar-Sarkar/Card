@@ -2,46 +2,53 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Card Battle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEURAL-LINK BATTLE ARENA</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="table">
-      <div class="card player">
-        <h2 id="p1-name"></h2>
-        <div class="stat">Life: <span id="p1-life"></span></div>
-        <div class="stat">Mana: <span id="p1-mana"></span></div>
+    <div class="glitch-overlay"></div>
+    <div class="game-container">
+      <section class="side-panel player-wing">
+        <div class="wing-header">FRIENDLY_UNITS</div>
+        <div id="player-cards" class="card-stack"></div>
+      </section>
 
-        <div class="actions">
-          <button data-action="light">Light</button>
-          <button data-action="normal">Normal</button>
-          <button data-action="special">Special</button>
-          <button data-action="def_normal" class="def-btn">Def (N)</button>
-          <button data-action="def_hard" class="def-btn">Def (H)</button>
+      <main class="center-hud">
+        <div class="hud-top">
+          <h1>NEURAL_INTERFACE v2.5</h1>
+          <div id="status" class="status-display">INITIALIZING...</div>
         </div>
-      </div>
 
-      <div class="vs">VS</div>
-
-      <div class="card enemy">
-        <h2 id="p2-name"></h2>
-        <div class="stat">Life: <span id="p2-life"></span></div>
-        <div class="stat">Mana: <span id="p2-mana"></span></div>
-
-        <div class="actions">
-          <button data-action="light">Light</button>
-          <button data-action="normal">Normal</button>
-          <button data-action="special">Special</button>
+        <div class="action-console">
+          <div id="action-buttons" class="action-grid">
+            <button id="light-btn" class="btn-neo">LIGHT_ATK</button>
+            <button id="normal-btn" class="btn-neo">NORM_ATK</button>
+            <button id="special-btn" class="btn-neo">SPEC_ATK</button>
+            <button id="area-btn" class="btn-neo btn-alt">AREA_BURST</button>
+            <button id="def-normal-btn" class="btn-neo btn-def">DEF_STD</button>
+            <button id="def-hard-btn" class="btn-neo btn-def">DEF_MAX</button>
+          </div>
+          <button id="rematch" class="btn-reboot" disabled>
+            SYSTEM_REBOOT
+          </button>
         </div>
-      </div>
+
+        <div class="battle-log-container">
+          <h3>📜 SENSORY_FEED</h3>
+          <div id="log" class="log-output"></div>
+        </div>
+      </main>
+
+      <section class="side-panel enemy-wing">
+        <div class="wing-header">HOSTILE_ENTITIES</div>
+        <div id="enemy-cards" class="card-stack"></div>
+      </section>
     </div>
-
-    <div id="status" class="status"></div>
-    <!-- <button id="nextTurn">Next Round</button> -->
-    <button id="rematch" disabled>Rematch</button>
-
-    <div id="log" class="log"></div>
-
-    <script type="module" src="maincall.js"></script>
+    <script type="module" src="./maincall.js"></script>
   </body>
 </html>
