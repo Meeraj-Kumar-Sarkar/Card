@@ -475,6 +475,7 @@ export function createCharacterInstance(characterId) {
     // Deep clone so runtime changes do NOT affect the blueprint
     return structuredClone({
         ...base,
+        maxLife: base.life,
         currentLife: base.life,
         currentMana: 100, // example starting mana
         statusEffects: [],
