@@ -6,6 +6,107 @@
   --glass: rgba(10, 20, 30, 0.85);
 }
 
+/* --- Immersive Animations --- */
+@keyframes pulse-cyan {
+  0% {
+    box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--neon-cyan), inset 0 0 10px var(--neon-cyan);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+  }
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 10px var(--neon-red);
+    transform: scale(1.02);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--neon-red);
+    transform: scale(1.05);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--neon-red);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes pulse-gold {
+  0% {
+    border-color: var(--neon-gold);
+    filter: drop-shadow(0 0 2px var(--neon-gold));
+  }
+  50% {
+    border-color: #fff;
+    filter: drop-shadow(0 0 15px var(--neon-gold));
+  }
+  100% {
+    border-color: var(--neon-gold);
+    filter: drop-shadow(0 0 2px var(--neon-gold));
+  }
+}
+
+/* --- State-Specific Glows --- */
+
+/* 1. Active Player Card (Cyan Glow) */
+.uiverse-card.active {
+  border: 1px solid var(--neon-cyan) !important;
+  animation: pulse-cyan 2s infinite ease-in-out;
+  z-index: 10;
+}
+
+/* 2. Selected Opponent (Red Target Glow) */
+.uiverse-card.selected {
+  border: 2px solid var(--neon-red) !important;
+  animation: pulse-red 0.8s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: crosshair;
+  z-index: 10;
+}
+
+/* 3. Defense Activated (Gold Shield Glow) */
+.uiverse-card.has-defense {
+  border: 2px solid var(--neon-gold) !important;
+  animation: pulse-gold 1.5s infinite ease-in-out;
+}
+
+/* Add a scanline effect to the top section of active/selected cards */
+.uiverse-card.active .top-section::after,
+.uiverse-card.selected .top-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.1) 50.5%,
+    rgba(255, 255, 255, 0) 51%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* --- Base Card Refinements --- */
+.uiverse-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.uiverse-card.player:hover:not(.defeated) {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+}
+
+.uiverse-card.enemy:hover:not(.defeated) {
+  border-color: var(--neon-red);
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+}
+
 body {
   background: var(--bg-dark);
   color: #e0f7fa;
@@ -171,4 +272,136 @@ body {
   font-weight: bold;
   border: 2px solid var(--neon-red);
   padding: 5px;
+}
+
+/* --- New Futuristic Card Styles --- */
+.uiverse-card {
+  width: 260px; /* Slightly wider for better text fit */
+  border-radius: 20px;
+  background: #1b233d;
+  padding: 5px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 7px 20px 0px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: default;
+}
+
+/* Hover & Active States */
+.uiverse-card.active {
+  border: 2px solid var(--neon-cyan);
+  transform: scale(1.05);
+}
+.uiverse-card.selected {
+  border: 2px solid var(--neon-red);
+  transform: scale(1.05);
+}
+
+.uiverse-card .top-section {
+  height: 100px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Color Coding: Player vs Enemy */
+.uiverse-card.player .top-section {
+  background: linear-gradient(45deg, #00818a 0%, #00f2ff 100%);
+}
+.uiverse-card.enemy .top-section {
+  background: linear-gradient(45deg, #8a0000 0%, #ff0055 100%);
+}
+
+.uiverse-card .top-section .border {
+  border-bottom-right-radius: 10px;
+  height: 30px;
+  width: 100px;
+  background: #1b233d;
+  position: relative;
+  transform: skew(-40deg) translateX(-15px);
+}
+
+.uiverse-card .top-section .icons {
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.char-id-tag {
+  font-family: "Orbitron";
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.card-name-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  font-family: "Orbitron";
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.uiverse-card .bottom-section {
+  margin-top: 10px;
+  padding: 10px 5px;
+}
+
+.uiverse-card .bottom-section .title {
+  display: block;
+  font-size: 12px;
+  font-weight: bolder;
+  color: #8899aa;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.uiverse-card .bottom-section .row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.uiverse-card .bottom-section .item {
+  flex: 33%;
+  text-align: center;
+}
+
+.uiverse-card .bottom-section .item .big-text {
+  font-size: 14px;
+  display: block;
+  color: white;
+  font-weight: bold;
+}
+
+.uiverse-card .bottom-section .item .regular-text {
+  font-size: 8px;
+  color: rgba(170, 222, 243, 0.5);
+}
+
+.uiverse-card .bottom-section .item:nth-child(2) {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Defeated State */
+.uiverse-card.defeated {
+  filter: grayscale(1) brightness(0.5);
+}
+
+.uiverse-card.defeated .defeated-badge {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  font-weight: bold;
+  transform: rotate(-10deg);
 }

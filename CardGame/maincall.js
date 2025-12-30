@@ -118,7 +118,13 @@ function renderTeams() {
 
 function createCharacterCard(character, index, isPlayer) {
     const card = document.createElement('div');
-    card.className = `character-card ${isPlayer ? 'player' : 'enemy'}`;
+    card.className = `uiverse-card ${isPlayer ? 'player' : 'enemy'}`;
+
+    // Check if character has active defense and add class for CSS glow
+    if (character.activeDefense) {
+        card.classList.add('has-defense');
+    }
+
     card.dataset.index = index;
     card.dataset.isPlayer = isPlayer;
 
@@ -126,23 +132,40 @@ function createCharacterCard(character, index, isPlayer) {
     if (!isPlayer && selectedTarget === index) card.classList.add('selected');
     if (isPlayer && index === state.currentPlayerCharIndex && isCharacterAlive(character)) card.classList.add('active');
 
-    const hpPercent = character.maxLife ? (character.currentLife / character.maxLife) * 100 : 0;
-    const mpPercent = Math.min(100, character.currentMana || 0);
+    // ... rest of your innerHTML generation ...
+    const hpPercent = character.maxLife ? Math.ceil((character.currentLife / character.maxLife) * 100) : 0;
 
     card.innerHTML = `
-        <div class="char-name">${character.id}</div>
-        <div class="char-stats">
-            <div class="stat-bar">
-                <span>HP: <span class="hp-value">${Math.ceil(character.currentLife)}</span>/${character.maxLife}</span>
-                <div class="bar"><div class="bar-fill hp" style="width: ${hpPercent}%"></div></div>
+        <div class="top-section">
+            <div class="border"></div>
+            <div class="icons">
+                <div class="logo">
+                   <span class="char-id-tag">${character.id.substring(0, 2).toUpperCase()}</span>
+                </div>
+                <div class="status-icon">
+                    ${character.activeDefense ? '🛡️' : '⚡'}
+                </div>
             </div>
-            <div class="stat-bar">
-                <span>MP: <span class="mp-value">${Math.ceil(character.currentMana)}</span>/100</span>
-                <div class="bar"><div class="bar-fill mp" style="width: ${mpPercent}%"></div></div>
+            <div class="card-name-overlay">${character.id}</div>
+        </div>
+        <div class="bottom-section">
+            <span class="title">UNIT_STATISTICS</span>
+            <div class="row row1">
+                <div class="item">
+                    <span class="big-text">${Math.ceil(character.currentLife)}</span>
+                    <span class="regular-text">HEALTH</span>
+                </div>
+                <div class="item">
+                    <span class="big-text">${Math.ceil(character.currentMana)}</span>
+                    <span class="regular-text">MANA</span>
+                </div>
+                <div class="item">
+                    <span class="big-text">${hpPercent}%</span>
+                    <span class="regular-text">INTEGRITY</span>
+                </div>
             </div>
         </div>
-        ${character.activeDefense ? `<div class="defense-badge">🛡️ ${character.activeDefense.type}</div>` : ''}
-        ${!isCharacterAlive(character) ? '<div class="defeated-badge">💀 DEFEATED</div>' : ''}
+        ${!isCharacterAlive(character) ? '<div class="defeated-badge">OFFLINE</div>' : ''}
     `;
 
     if (!isPlayer) {
