@@ -5,6 +5,7 @@
 const CHARACTER_DEFINITIONS = Object.freeze({
     gladiator: Object.freeze({
         id: "gladiator",
+        name: "Gladiator",
         rarity: "Common",
         power: 120,
         life: 160,
@@ -21,6 +22,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     bandits: Object.freeze({
         id: "bandits",
+        name: "Bandits",
         rarity: "Common",
         power: 110,
         life: 140,
@@ -37,6 +39,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     cannon: Object.freeze({
         id: "cannon",
+        name: "Cannon",
         rarity: "Common",
         power: 130,
         life: 120,
@@ -53,6 +56,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     guillotine: Object.freeze({
         id: "guillotine",
+        name: "Guillotine",
         rarity: "Common",
         power: 125,
         life: 130,
@@ -69,6 +73,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     poison: Object.freeze({
         id: "poison",
+        name: "Poison",
         rarity: "Common",
         power: 115,
         life: 135,
@@ -85,6 +90,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     bomb: Object.freeze({
         id: "bomb",
+        name: "Bomb",
         rarity: "Common",
         power: 115,
         life: 100,
@@ -101,6 +107,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     spearman: Object.freeze({
         id: "spearman",
+        name: "Spearman",
         rarity: "Common",
         power: 118,
         life: 150,
@@ -117,6 +124,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     shield_bearer: Object.freeze({
         id: "shield_bearer",
+        name: "Shield Bearer",
         rarity: "Common",
         power: 122,
         life: 180,
@@ -133,6 +141,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     sling_archer: Object.freeze({
         id: "sling_archer",
+        name: "Sling Archer",
         rarity: "Commmon",
         power: 112,
         life: 140,
@@ -149,6 +158,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     foot_soldier: Object.freeze({
         id: "foot_soldier",
+        name: "Foot Soldier",
         rarity: "Common",
         power: 116,
         life: 155,
@@ -165,6 +175,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     scout: Object.freeze({
         id: "scout",
+        name: "Scout",
         rarity: "Common",
         power: 105,
         life: 130,
@@ -181,6 +192,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     torch_unit: Object.freeze({
         id: "touch_unit",
+        name: "Touch Unit",
         rarity: "Common",
         power: 120,
         life: 145,
@@ -201,6 +213,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     knight: Object.freeze({
         id: "knight",
+        name: "Knight",
         rarity: "Common+",
         power: 160,
         life: 200,
@@ -217,6 +230,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     joker: Object.freeze({
         id: "joker",
+        name: "Joker",
         rarity: "Common+",
         power: 150,
         life: 180,
@@ -233,6 +247,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     orc: Object.freeze({
         id: "orc",
+        name: "Orc",
         rarity: "Common+",
         power: 170,
         life: 220,
@@ -249,6 +264,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     elvion: Object.freeze({
         id: "elvion",
+        name: "Elvion",
         rarity: "Common+",
         power: 165,
         life: 190,
@@ -265,6 +281,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     crossbow_knight: Object.freeze({
         id: "crossbow_knight",
+        name: "Crossbow Knight",
         rarity: "Common+",
         power: 168,
         life: 210,
@@ -281,6 +298,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     war_drummer: Object.freeze({
         id: "war_drummer",
+        name: "War Drummer",
         rarity: "Common+",
         power: 158,
         life: 195,
@@ -297,6 +315,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     shadow_thief: Object.freeze({
         id: "shadow_thief",
+        name: "Shadow Thief",
         rarity: "Common+",
         power: 155,
         life: 170,
@@ -313,6 +332,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     flame_adept: Object.freeze({
         id: "flame_adept",
+        name: "Flame Adept",
         rarity: "Common+",
         power: 162,
         life: 185,
@@ -333,6 +353,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     trio_knight: Object.freeze({
         id: "trio_knight",
+        name: "Trio Knight",
         rarity: "Uncommon",
         power: 220,
         life: 280,
@@ -349,6 +370,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     agela: Object.freeze({
         id: "agela",
+        name: "Agela",
         rarity: "Uncommon",
         power: 230,
         life: 300,
@@ -365,6 +387,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     mune: Object.freeze({
         id: "mune",
+        name: "Mune",
         rarity: "Uncommon",
         power: 250,
         life: 340,
@@ -381,6 +404,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     iota: Object.freeze({
         id: "iota",
+        name: "Iota",
         rarity: "Uncommon",
         power: 235,
         life: 310,
@@ -397,6 +421,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     scith: Object.freeze({
         id: "scith",
+        name: "Scith",
         rarity: "Uncommon",
         power: 240,
         life: 320,
@@ -413,6 +438,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     rune_archer: Object.freeze({
         id: "rune_archer",
+        name: "Rune Archer",
         rarity: "Uncommon",
         power: 225,
         life: 290,
@@ -429,6 +455,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     war_cleric: Object.freeze({
         id: "war_cleric",
+        name: "War Cleric",
         rarity: "Uncommon",
         power: 245,
         life: 330,
@@ -445,6 +472,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
 
     stone_golem: Object.freeze({
         id: "stone_golem",
+        name: "Stone Golem",
         rarity: "Uncommon",
         power: 260,
         life: 380,
@@ -465,6 +493,10 @@ const CHARACTER_DEFINITIONS = Object.freeze({
  * Creates a RUNTIME INSTANCE of a character.
  * This is the object the game mutates.
  */
+
+// This instance is made when calling a single character
+
+// THIS IS FOR TESTING PURPOSES!! 
 export function createCharacterInstance(characterId) {
     const base = CHARACTER_DEFINITIONS[characterId];
 
@@ -481,4 +513,11 @@ export function createCharacterInstance(characterId) {
         statusEffects: [],
         cooldowns: {}
     });
+}
+
+export function createTeamInstance(firstCharcater, secondCharacter, thirdCharacter) {
+    return [createCharacterInstance(firstCharcater),
+    createCharacterInstance(secondCharacter),
+    createCharacterInstance(thirdCharacter)
+    ]
 }

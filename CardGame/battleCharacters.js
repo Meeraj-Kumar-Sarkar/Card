@@ -2,18 +2,14 @@
 // This file consumes IMMUTABLE character blueprints
 // and works only with RUNTIME INSTANCES.
 
-import { createCharacterInstance } from "./characters.js";
+import { createCharacterInstance, createTeamInstance } from "./characters.js";
 
 /**
- * Creates a playable team from an array of character IDs.
- * Example: ["spearman", "cannon", "gladiator"]
+ * Fetch trio character instance.
+ * Example: getTeam(firstCharacterId, secondCharacterId, thirdCharacterId)
  */
-export function createTeam(characterIds) {
-    if (!Array.isArray(characterIds)) {
-        throw new Error("createTeam expects an array of character IDs");
-    }
-
-    return characterIds.map(id => createCharacterInstance(id));
+export function getTeam(firstCharacterId, secondCharacterId, thirdCharacterId) {
+    return createTeamInstance(firstCharacterId, secondCharacterId, thirdCharacterId);
 }
 
 /**
