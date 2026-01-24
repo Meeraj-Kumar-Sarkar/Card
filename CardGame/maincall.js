@@ -1,137 +1,162 @@
-import readline from "readline";
 import {
     getTeam,
     performLightAttack,
     performNormalAttack,
     performSpecialAttack
 } from "./battleCharacters.js";
+import { CHARACTER_DEFINITIONS } from "./characters.js";
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+// --- State Management ---
+let player1Team = [];
+let player2Team = [];
+let turn = 0;
+let isBattleActive = false;
 
-function ask(question) {
-    return new Promise(resolve => rl.question(question, resolve));
+// --- DOM Elements ---
+const setupScreen = document.getElementById("setup-screen");
+const battleArena = document.getElementById("battle-arena");
+const logContainer = document.getElementById("log");
+const nextTurnBtn = document.getElementById("next-turn-btn");
+
+/**
+ * Populates the <select> elements with character IDs from CHARACTER_DEFINITIONS.
+ */
+function populateSelectors() {
+    const selectors = document.querySelectorAll(".char-selector");
+    const charIds = Object.keys(CHARACTER_DEFINITIONS);
+
+    selectors.forEach(select => {
+        charIds.forEach(id => {
+            const option = document.createElement("option");
+            option.value = id;
+            option.textContent = CHARACTER_DEFINITIONS[id].name;
+            select.appendChild(option);
+        });
+    });
 }
 
-/* ============================
-   CORE HELPERS
-============================ */
+/**
+ * Initializes team instances based on user selection.
+ */
+function startBattle() {
+    const p1Picks = Array.from(document.querySelectorAll(".p1-pick")).map(s => s.value);
+    const p2Picks = Array.from(document.querySelectorAll(".p2-pick")).map(s => s.value);
 
-function isTeamAlive(team) {
-    return team.some(c => c.currentLife > 0);
+    // Creates runtime instances using the character blueprints
+    player1Team = getTeam(p1Picks[0], p1Picks[1], p1Picks[2]);
+    player2Team = getTeam(p2Picks[0], p2Picks[1], p2Picks[2]);
+
+    setupScreen.style.display = "none";
+    battleArena.style.display = "block";
+    isBattleActive = true;
+    updateUI();
+    addLog("=== BATTLE START ===");
 }
 
-function getAlive(team) {
-    return team.filter(c => c.currentLife > 0);
+/**
+ * Logic for a single turn, ported from terminal logic.
+ */
+function playTurn() {
+    if (!isBattleActive) return;
+
+    const attackingTeam = turn % 2 === 0 ? player1Team : player2Team;
+    const defendingTeam = turn % 2 === 0 ? player2Team : player1Team;
+
+    const aliveAttackers = attackingTeam.filter(c => c.currentLife > 0);
+    const aliveDefenders = defendingTeam.filter(c => c.currentLife > 0);
+
+    if (aliveAttackers.length === 0 || aliveDefenders.length === 0) {
+        endBattle();
+        return;
+    }
+
+    const attacker = aliveAttackers[0];
+    const defender = aliveDefenders[0];
+
+    // Randomly choose an attack type based on available moves
+    const move = chooseMove(attacker);
+    const result = executeMove(move, attacker, defender);
+
+    addLog(`[Turn ${turn + 1}] ${attacker.name} used ${move} on ${defender.name}`);
+    if (result.success) {
+        addLog(`Hit! ${result.damageDealt} damage dealt.`);
+    } else {
+        addLog(`Failed: ${result.reason}`);
+    }
+
+    if (defender.currentLife <= 0) {
+        addLog(`${defender.name} has been defeated!`);
+    }
+
+    turn++;
+    updateUI();
+    checkWinCondition();
 }
 
-function chooseRandomAction(attacker) {
-    const actions = [];
-    if (attacker.attacks.light) actions.push("light");
-    if (attacker.attacks.normal) actions.push("normal");
-    if (attacker.attacks.special) actions.push("special");
-    return actions[Math.floor(Math.random() * actions.length)];
+/**
+ * Helper to map string move types to attack functions.
+ */
+function executeMove(type, attacker, defender) {
+    if (type === "special") return performSpecialAttack(attacker, defender);
+    if (type === "normal") return performNormalAttack(attacker, defender);
+    return performLightAttack(attacker, defender);
 }
 
-function performAction(type, attacker, defender) {
-    switch (type) {
-        case "light":
-            return performLightAttack(attacker, defender);
-        case "normal":
-            return performNormalAttack(attacker, defender);
-        case "special":
-            return performSpecialAttack(attacker, defender);
-        default:
-            return { success: false };
+function chooseMove(attacker) {
+    const moves = ["light", "normal"];
+    if (attacker.attacks.special) moves.push("special");
+    return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function updateUI() {
+    renderTeam(player1Team, "p1-display");
+    renderTeam(player2Team, "p2-display");
+}
+
+function renderTeam(team, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = team.map(c => {
+        const hpPercent = (c.currentLife / c.maxLife) * 100;
+        const mpPercent = (c.currentMana / 100) * 100; // Assuming 100 is max mana
+
+        return `
+            <div class="char-card ${c.currentLife <= 0 ? 'dead' : ''}">
+                <strong>${c.name}</strong>
+                <div class="stat-text">HP: ${c.currentLife}/${c.maxLife}</div>
+                <div class="bar-container">
+                    <div class="hp-fill" style="width: ${hpPercent}%"></div>
+                </div>
+                <div class="stat-text">MP: ${c.currentMana}</div>
+                <div class="bar-container">
+                    <div class="mp-fill" style="width: ${mpPercent}%"></div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function addLog(msg) {
+    const entry = document.createElement("div");
+    entry.textContent = msg;
+    logContainer.prepend(entry);
+}
+
+function checkWinCondition() {
+    const p1Alive = player1Team.some(c => c.currentLife > 0);
+    const p2Alive = player2Team.some(c => c.currentLife > 0);
+
+    if (!p1Alive || !p2Alive) {
+        endBattle(p1Alive ? "Player 1" : "Player 2");
     }
 }
 
-/* ============================
-   PLAYER TEAM SELECTION
-============================ */
-
-async function chooseTeam(playerName) {
-    console.log(`\n${playerName}, choose your 3 characters.`);
-    console.log("Enter character IDs separated by commas.");
-    console.log("Example: guillotine,bomb,spearman\n");
-
-    while (true) {
-        try {
-            const input = await ask("> ");
-            const picks = input.split(",").map(p => p.trim());
-
-            if (picks.length !== 3) {
-                console.log("You must choose exactly 3 characters.");
-                continue;
-            }
-
-            return getTeam(picks[0], picks[1], picks[2]);
-        } catch (err) {
-            console.log("Invalid selection. Try again.");
-        }
-    }
+function endBattle(winner) {
+    isBattleActive = false;
+    addLog(`=== ${winner.toUpperCase()} WINS ===`);
+    nextTurnBtn.disabled = true;
 }
 
-/* ============================
-   BATTLE LOOP
-============================ */
-
-async function battle(teamA, teamB) {
-    let turn = 0;
-
-    console.log("\n=== BATTLE START ===\n");
-
-    while (isTeamAlive(teamA) && isTeamAlive(teamB)) {
-        turn++;
-
-        const attackingTeam = turn % 2 === 1 ? teamA : teamB;
-        const defendingTeam = turn % 2 === 1 ? teamB : teamA;
-
-        const attacker = getAlive(attackingTeam)[0];
-        const defender = getAlive(defendingTeam)[0];
-
-        const action = chooseRandomAction(attacker);
-        const result = performAction(action, attacker, defender);
-
-        console.log(
-            `[Turn ${turn}] ${attacker.name} uses ${action} on ${defender.name}`
-        );
-
-        if (result.success) {
-            console.log(
-                `${defender.name} HP: ${defender.currentLife}/${defender.maxLife}`
-            );
-        } else {
-            console.log("Action failed:", result.reason);
-        }
-
-        if (defender.currentLife === 0) {
-            console.log(`${defender.name} has fallen.`);
-        }
-
-        console.log("-----");
-        await ask("Press ENTER to continue...");
-    }
-
-    const winner = isTeamAlive(teamA) ? "PLAYER 1" : "PLAYER 2";
-    console.log(`\n=== ${winner} WINS ===\n`);
-}
-
-/* ============================
-   MAIN FLOW
-============================ */
-
-async function main() {
-    console.log("=== 3v3 TERMINAL BATTLE ===");
-
-    const team1 = await chooseTeam("Player 1");
-    const team2 = await chooseTeam("Player 2");
-
-    await battle(team1, team2);
-
-    rl.close();
-}
-
-main();
+// Event Listeners
+document.getElementById("start-btn").addEventListener("click", startBattle);
+nextTurnBtn.addEventListener("click", playTurn);
+populateSelectors();

@@ -2,7 +2,7 @@
 // This file defines IMMUTABLE character blueprints.
 // These must NEVER be mutated directly during gameplay.
 
-const CHARACTER_DEFINITIONS = Object.freeze({
+export const CHARACTER_DEFINITIONS = Object.freeze({
     gladiator: Object.freeze({
         id: "gladiator",
         name: "Gladiator",

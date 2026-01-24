@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>3v3 Web Arena</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="setup-screen">
+        <h3>Player 1 Team</h3>
+        <select class="char-selector p1-pick"></select>
+        <select class="char-selector p1-pick"></select>
+        <select class="char-selector p1-pick"></select>
+
+        <h3>Player 2 Team</h3>
+        <select class="char-selector p2-pick"></select>
+        <select class="char-selector p2-pick"></select>
+        <select class="char-selector p2-pick"></select>
+
+        <button id="start-btn">Start Battle</button>
+      </div>
+
+      <div id="battle-arena" style="display: none">
+        <div id="p1-display"></div>
+        VS
+        <div id="p2-display"></div>
+      </div>
+      <button id="next-turn-btn">Next Turn</button>
+      <div id="log"></div>
+    </div>
+    <script type="module" src="maincall.js"></script>
+  </body>
+</html>
