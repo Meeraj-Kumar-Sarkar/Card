@@ -1,3 +1,4 @@
+import readline from "readline";
 import {
     getTeam,
     performLightAttack,
@@ -5,21 +6,28 @@ import {
     performSpecialAttack
 } from "./battleCharacters.js";
 
-const teamA = getTeam("guillotine", "bomb", "spearman");
-const teamB = getTeam("war_cleric", "war_cleric", "cannon");
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-let turn = 0;
+function ask(question) {
+    return new Promise(resolve => rl.question(question, resolve));
+}
+
+/* ============================
+   CORE HELPERS
+============================ */
 
 function isTeamAlive(team) {
-    return team.some(char => char.currentLife > 0);
+    return team.some(c => c.currentLife > 0);
 }
 
-function getRandomAlive(team) {
-    const alive = team.filter(c => c.currentLife > 0);
-    return alive[Math.floor(Math.random() * alive.length)];
+function getAlive(team) {
+    return team.filter(c => c.currentLife > 0);
 }
 
-function chooseAction(attacker) {
+function chooseRandomAction(attacker) {
     const actions = [];
     if (attacker.attacks.light) actions.push("light");
     if (attacker.attacks.normal) actions.push("normal");
@@ -40,32 +48,90 @@ function performAction(type, attacker, defender) {
     }
 }
 
-while (isTeamAlive(teamA) && isTeamAlive(teamB)) {
-    turn++;
+/* ============================
+   PLAYER TEAM SELECTION
+============================ */
 
-    const attackingTeam = turn % 2 === 1 ? teamA : teamB;
-    const defendingTeam = turn % 2 === 1 ? teamB : teamA;
+async function chooseTeam(playerName) {
+    console.log(`\n${playerName}, choose your 3 characters.`);
+    console.log("Enter character IDs separated by commas.");
+    console.log("Example: guillotine,bomb,spearman\n");
 
-    const attacker = getRandomAlive(attackingTeam);
-    const defender = getRandomAlive(defendingTeam);
+    while (true) {
+        try {
+            const input = await ask("> ");
+            const picks = input.split(",").map(p => p.trim());
 
-    const action = chooseAction(attacker);
-    const result = performAction(action, attacker, defender);
+            if (picks.length !== 3) {
+                console.log("You must choose exactly 3 characters.");
+                continue;
+            }
 
-    console.log(
-        `[Turn ${turn}] ${attacker.name} attacks ${defender.name} with ${action}`
-    );
-
-    if (result.success) {
-        console.log(
-            `${defender.name} HP: ${defender.currentLife}`
-        );
-    } else {
-        console.log(`Action failed: ${result.reason}`);
+            return getTeam(picks[0], picks[1], picks[2]);
+        } catch (err) {
+            console.log("Invalid selection. Try again.");
+        }
     }
-
-    console.log("-----");
 }
 
-const winner = isTeamAlive(teamA) ? "TEAM A" : "TEAM B";
-console.log(`Winner: ${winner}`);
+/* ============================
+   BATTLE LOOP
+============================ */
+
+async function battle(teamA, teamB) {
+    let turn = 0;
+
+    console.log("\n=== BATTLE START ===\n");
+
+    while (isTeamAlive(teamA) && isTeamAlive(teamB)) {
+        turn++;
+
+        const attackingTeam = turn % 2 === 1 ? teamA : teamB;
+        const defendingTeam = turn % 2 === 1 ? teamB : teamA;
+
+        const attacker = getAlive(attackingTeam)[0];
+        const defender = getAlive(defendingTeam)[0];
+
+        const action = chooseRandomAction(attacker);
+        const result = performAction(action, attacker, defender);
+
+        console.log(
+            `[Turn ${turn}] ${attacker.name} uses ${action} on ${defender.name}`
+        );
+
+        if (result.success) {
+            console.log(
+                `${defender.name} HP: ${defender.currentLife}/${defender.maxLife}`
+            );
+        } else {
+            console.log("Action failed:", result.reason);
+        }
+
+        if (defender.currentLife === 0) {
+            console.log(`${defender.name} has fallen.`);
+        }
+
+        console.log("-----");
+        await ask("Press ENTER to continue...");
+    }
+
+    const winner = isTeamAlive(teamA) ? "PLAYER 1" : "PLAYER 2";
+    console.log(`\n=== ${winner} WINS ===\n`);
+}
+
+/* ============================
+   MAIN FLOW
+============================ */
+
+async function main() {
+    console.log("=== 3v3 TERMINAL BATTLE ===");
+
+    const team1 = await chooseTeam("Player 1");
+    const team2 = await chooseTeam("Player 2");
+
+    await battle(team1, team2);
+
+    rl.close();
+}
+
+main();

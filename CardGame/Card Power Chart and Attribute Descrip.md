@@ -27,7 +27,7 @@ The stat format below is shown in a concise table layout (same as the Power Char
 | Common     | Cannon                   |   130 |           14 (4) |           40 (10) |                    – |            15 (5) |          20 (7) |       120 |
 | Common     | Guillotine               |   125 |           16 (5) |            36 (9) |              48 (10) |            14 (4) |          22 (7) |       130 |
 | Common     | Poison                   |   115 |           12 (4) |            24 (6) |              42 (10) |            16 (5) |          20 (7) |       135 |
-| Common     | Bomb                     |   140 |           10 (3) |           50 (10) |              65 (10) |            10 (4) |          15 (6) |       100 |
+| Common     | Bomb Cannon              |   140 |           10 (3) |           50 (10) |              65 (10) |            10 (4) |          15 (6) |       100 |
 | Common     | Spearman                 |   118 |           22 (5) |            30 (8) |                    – |            20 (6) |          26 (8) |       150 |
 | Common     | Shield Bearer            |   122 |           14 (4) |            22 (7) |                    – |            28 (7) |         36 (10) |       180 |
 | Common     | Sling Archer             |   112 |           24 (5) |            26 (7) |                    – |            16 (5) |          22 (7) |       140 |

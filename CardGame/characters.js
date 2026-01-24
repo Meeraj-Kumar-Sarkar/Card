@@ -145,7 +145,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
         rarity: "Commmon",
         power: 112,
         life: 140,
-        attack: {
+        attacks: {
             light: { value: 24, mana: 5 },
             normal: { value: 26, mana: 7 },
             special: null
@@ -162,7 +162,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
         rarity: "Common",
         power: 116,
         life: 155,
-        attack: {
+        attacks: {
             light: { value: 18, mana: 5 },
             normal: { value: 28, mana: 8 },
             special: null
@@ -179,7 +179,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
         rarity: "Common",
         power: 105,
         life: 130,
-        attack: {
+        attacks: {
             light: { value: 26, mana: 5 },
             normal: { value: 30, mana: 7 },
             special: null
@@ -196,7 +196,7 @@ const CHARACTER_DEFINITIONS = Object.freeze({
         rarity: "Common",
         power: 120,
         life: 145,
-        attack: {
+        attacks: {
             light: { value: 20, mana: 5 },
             normal: { value: 30, mana: 8 },
             special: { value: 40, mana: 10 }
