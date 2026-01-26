@@ -2,33 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>3v3 Web Arena</title>
+    <title>7x7 Web Arena Tactics</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="game-container">
-      <div id="setup-screen">
-        <h3>Player 1 Team</h3>
-        <select class="char-selector p1-pick"></select>
-        <select class="char-selector p1-pick"></select>
-        <select class="char-selector p1-pick"></select>
-
-        <h3>Player 2 Team</h3>
-        <select class="char-selector p2-pick"></select>
-        <select class="char-selector p2-pick"></select>
-        <select class="char-selector p2-pick"></select>
-
-        <button id="start-btn">Start Battle</button>
+    <div id="combat-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="combat-title">Combat Initiated!</h2>
+        <div id="combat-stage-1">
+          <p>Attacker: Choose your move</p>
+          <div class="btn-group" id="attack-options"></div>
+        </div>
+        <div id="combat-stage-2" class="hidden">
+          <p>Defender: React!</p>
+          <div class="btn-group">
+            <button data-reaction="defend">Defend (Reduce Dmg)</button>
+            <button data-reaction="evade">Evade (Chance to Dodge)</button>
+            <button data-reaction="counter">
+              Counter (Risk Hit to Hit Back)
+            </button>
+          </div>
+        </div>
+        <div id="combat-log"></div>
       </div>
-
-      <div id="battle-arena" style="display: none">
-        <div id="p1-display"></div>
-        VS
-        <div id="p2-display"></div>
-      </div>
-      <button id="next-turn-btn">Next Turn</button>
-      <div id="log"></div>
     </div>
+
+    <div id="game-layout">
+      <div class="player-sidebar" id="p1-sidebar">
+        <h3 class="p1-title">Player 1</h3>
+        <div id="p1-roster"></div>
+      </div>
+
+      <div id="center-stage">
+        <div id="setup-screen">
+          <h2>Tactical Setup</h2>
+          <div class="setup-group">
+            <h4>Player 1 Team</h4>
+            <select class="char-selector p1-pick"></select>
+            <select class="char-selector p1-pick"></select>
+            <select class="char-selector p1-pick"></select>
+          </div>
+          <div class="setup-group">
+            <h4>Player 2 Team</h4>
+            <select class="char-selector p2-pick"></select>
+            <select class="char-selector p2-pick"></select>
+            <select class="char-selector p2-pick"></select>
+          </div>
+          <button id="start-setup-btn">Enter Placement Phase</button>
+        </div>
+
+        <div id="game-message" class="hidden">
+          Select P1 characters and click Row 1 to place.
+        </div>
+
+        <div id="grid-board" class="hidden"></div>
+      </div>
+
+      <div class="player-sidebar" id="p2-sidebar">
+        <h3 class="p2-title">Player 2</h3>
+        <div id="p2-roster"></div>
+      </div>
+    </div>
+
     <script type="module" src="maincall.js"></script>
   </body>
 </html>
